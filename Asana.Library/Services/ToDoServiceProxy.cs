@@ -62,13 +62,15 @@ namespace Asana.Library.Services
                 return instance;
             }
         }
-        public void AddOrUpdate(ToDo? toDo)
+        public ToDo? AddOrUpdate(ToDo? toDo)
         {
             if(toDo != null && toDo.Id == 0)
             {
                 toDo.Id = nextKey;
                 _toDoList.Add(toDo);
             }
+
+            return toDo;
         }
 
         public void DisplayToDos(bool isShowCompleted = false)
@@ -96,7 +98,7 @@ namespace Asana.Library.Services
             {
                 return;
             }
-            ToDos.Remove(toDo);
+            _toDoList.Remove(toDo);
         }
 
     }
