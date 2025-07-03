@@ -30,11 +30,24 @@ namespace Asana.Maui.ViewModels
             DeleteCommand = new Command(DoDelete);
         }
 
-        public void DoDelete() {
-            ToDoServiceProxy.Current.DeleteToDo(Model);
+        public void DoDelete()
+        {
+            DoDelete(Model);
         }
 
-        public ToDo? Model { get ; set; }
+        public void DoDelete(ToDo? model)
+        {
+            if (Model != null)
+            {
+                ToDoServiceProxy.Current.DeleteToDo(Model);
+            }
+        }
+        public void Save()
+        {
+            ToDoServiceProxy.Current.AddOrUpdate(Model);
+        }
+
+        public ToDo? Model { get; set; }
         public ICommand? DeleteCommand { get; set; }
 
         public List<int> Priorities

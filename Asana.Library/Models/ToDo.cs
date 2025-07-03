@@ -17,14 +17,14 @@ namespace Asana.Library.Models
         public string? Description { get; set; }
         public int? Priority { get; set; }
         public bool? IsCompleted { get; set; }
-
-        
-
+        public int? ProjectId { get; set; }
         public int Id { get; set; }
+        public DateTime? DueDate { get; set; }
 
         public override string ToString()
         {
-            return $"[{Id}] {Name} - {Description}";
+            string projectInfo = ProjectId.HasValue ? $" (Project Id: {ProjectId})" : "";
+            return $"[{Id}] {Name} - {Description}{projectInfo}";
         }
     }
 }

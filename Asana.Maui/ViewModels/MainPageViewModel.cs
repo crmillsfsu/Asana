@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Asana.Maui.ViewModels
 {
     public class MainPageViewModel : INotifyPropertyChanged
@@ -18,20 +19,35 @@ namespace Asana.Maui.ViewModels
         public MainPageViewModel()
         {
             _toDoSvc = ToDoServiceProxy.Current;
+            query = string.Empty; 
         }
 
-        public ToDoDetailViewModel SelectedToDo { get; set; }
+
+        public ToDoDetailViewModel? SelectedToDo { get; set; }
+
+    
+        private string query = string.Empty;
+        public string Query { 
+            get { return query; }
+            set {
+                if (query != value)
+                {
+                    query = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
         public ObservableCollection<ToDoDetailViewModel> ToDos
         {
             get
             {
-                var toDos = _toDoSvc.ToDos
-                        .Select(t => new ToDoDetailViewModel(t));
+                var todos = _toDoSvc.ToDos.Select(t => new ToDoDetailViewModel(t));
                 if (!IsShowCompleted)
                 {
-                    toDos = toDos.Where(t => !t?.Model?.IsCompleted ?? false);
+                    todos = todos.Where(t => !t.Model?.IsCompleted ?? false);
                 }
-                return new ObservableCollection<ToDoDetailViewModel>(toDos);
+                return new ObservableCollection<ToDoDetailViewModel>(todos);
             }
         }
 
@@ -39,11 +55,7 @@ namespace Asana.Maui.ViewModels
 
         private bool isShowCompleted;
         public bool IsShowCompleted { 
-            get
-            {
-                return isShowCompleted;
-            }
-
+            get { return isShowCompleted; }
             set
             {
                 if (isShowCompleted != value)
@@ -56,18 +68,22 @@ namespace Asana.Maui.ViewModels
 
         public void DeleteToDo()
         {
-            if (SelectedToDo == null)
+            if (SelectedToDo?.Model != null)
             {
-                return;
+                ToDoServiceProxy.Current.DeleteToDo(SelectedToDo.Model);
+                NotifyPropertyChanged(nameof(ToDos));
             }
-
-            ToDoServiceProxy.Current.DeleteToDo(SelectedToDo.Model);
-            NotifyPropertyChanged(nameof(ToDos));
         }
 
         public void RefreshPage()
         {
             NotifyPropertyChanged(nameof(ToDos));
+        }
+
+        public void HandleSearchClick()
+        {
+            RefreshPage();
+            Query = string.Empty;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

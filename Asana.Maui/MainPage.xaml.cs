@@ -1,4 +1,5 @@
-﻿using Asana.Maui.ViewModels;
+﻿using Asana.Library.Models;
+using Asana.Maui.ViewModels;
 
 namespace Asana.Maui
 {
@@ -40,6 +41,16 @@ namespace Asana.Maui
         private void InLineDeleteClicked(object sender, EventArgs e)
         {
             (BindingContext as MainPageViewModel)?.RefreshPage();
+        }
+
+        private void ProjectClicked(object sender, EventArgs e)
+        {
+            Shell.Current.GoToAsync($"//ProjectPage");
+        }
+
+        private void SearchClicked(object sender, EventArgs e)
+        {
+            (BindingContext as MainPageViewModel)?.HandleSearchClick();
         }
     }
 

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Asana.Maui.Views.ProjectsView"
+             Title="Manage Projects"
+             NavigatedTo="ContentPage_NavigatedTo"
+             NavigatedFrom="ContentPage_NavigatedFrom">
+
+    <VerticalStackLayout Padding="20" Spacing="20">
+        <Label Text="PROJECTS PAGE" 
+               FontSize="24" 
+               FontAttributes="Bold"
+               HorizontalOptions="Center"/>
+        
+        <!-- Test basic binding -->
+        <Label Text="{Binding Query, StringFormat='Query: {0}'}" FontSize="16"/>
+        <Entry Text="{Binding Query}" Placeholder="Search projects..."/>
+        
+        <!-- Test projects count -->
+        <Label Text="{Binding Projects.Count, StringFormat='Projects Count: {0}'}" FontSize="16"/>
+        
+        <!-- ListView -->
+        <ListView ItemsSource="{Binding Projects}" 
+                  SelectedItem="{Binding SelectedProject}"
+                  HeightRequest="300">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid Padding="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <Label Grid.Column="0" 
+                                   Text="{Binding Model.Id}" 
+                                   WidthRequest="30"
+                                   FontAttributes="Bold"/>
+                            
+                            <StackLayout Grid.Column="1" Orientation="Vertical">
+                                <Label Text="{Binding Model.Name}" 
+                                       FontAttributes="Bold" 
+                                       TextColor="Blue"/>
+                                <Label Text="{Binding Model.Description}"/>
+                                <Label Text="{Binding Model.CompletePercent, StringFormat='Progress: {0}%'}" 
+                                       TextColor="Green" 
+                                       FontSize="12"/>
+                            </StackLayout>
+                            
+                            <Button Grid.Column="2" 
+                                    Text="Delete" 
+                                    BackgroundColor="Red"
+                                    TextColor="White"
+                                    Clicked="InLineDeleteClicked" 
+                                    Command="{Binding DeleteCommand}"/>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
+        <!-- Action Buttons -->
+        <VerticalStackLayout Spacing="10">
+            <Button Text="Add New Project" 
+                    BackgroundColor="Green" 
+                    TextColor="White"
+                    Clicked="AddNewClicked"/>
+            
+            <Button Text="Edit Selected Project" 
+                    BackgroundColor="Orange" 
+                    TextColor="White"
+                    Clicked="EditClicked"/>
+            
+            <Button Text="Delete Selected Project" 
+                    BackgroundColor="Red" 
+                    TextColor="White"
+                    Clicked="DeleteClicked"/>
+            
+            <Button Text="Back to ToDos" 
+                    BackgroundColor="Blue" 
+                    TextColor="White"
+                    Clicked="BackToToDosClicked"/>
+        </VerticalStackLayout>
+    </VerticalStackLayout>
+
+</ContentPage>

@@ -10,13 +10,15 @@ namespace Asana.Library.Services
     public class ToDoServiceProxy
     {
         private List<ToDo> _toDoList;
-        public List<ToDo> ToDos { 
+        public List<ToDo> ToDos
+        {
             get
             {
                 return _toDoList.Take(100).ToList();
             }
 
-            private set {
+            private set
+            {
                 if (value != _toDoList)
                 {
                     _toDoList = value;
@@ -26,7 +28,7 @@ namespace Asana.Library.Services
 
         private ToDoServiceProxy()
         {
-            ToDos = new List<ToDo>
+            _toDoList = new List<ToDo>
             {
                 new ToDo{Id = 1, Name = "Task 1", Description = "My Task 1", IsCompleted=true},
                 new ToDo{Id = 2, Name = "Task 2", Description = "My Task 2", IsCompleted=false },
@@ -42,7 +44,7 @@ namespace Asana.Library.Services
         {
             get
             {
-                if(ToDos.Any())
+                if (ToDos.Any())
                 {
                     return ToDos.Select(t => t.Id).Max() + 1;
                 }
@@ -54,7 +56,7 @@ namespace Asana.Library.Services
         {
             get
             {
-                if(instance == null)
+                if (instance == null)
                 {
                     instance = new ToDoServiceProxy();
                 }
@@ -64,7 +66,7 @@ namespace Asana.Library.Services
         }
         public ToDo? AddOrUpdate(ToDo? toDo)
         {
-            if(toDo != null && toDo.Id == 0)
+            if (toDo != null && toDo.Id == 0)
             {
                 toDo.Id = nextKey;
                 _toDoList.Add(toDo);
@@ -94,12 +96,21 @@ namespace Asana.Library.Services
 
         public void DeleteToDo(ToDo? toDo)
         {
-            if (toDo == null)
+            if (toDo != null)
             {
-                return;
+                _toDoList.Remove(toDo);
             }
-            _toDoList.Remove(toDo);
         }
 
+        // Add this new overload:
+        public void DeleteToDo(int id)
+        {
+            var todoToDelete = GetById(id);
+            if (todoToDelete != null)
+            {
+                DeleteToDo(todoToDelete);
+            }
+
+        }
     }
 }
