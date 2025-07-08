@@ -29,7 +29,8 @@
             <Label Text="Priority:" Grid.Column="1"/>
             <!--<Entry Text="{Binding PriorityDisplay}" Grid.Column="2"/>-->
             <Picker ItemsSource="{Binding Priorities}"
-                    SelectedItem="{Binding SelectedPriority}" Grid.Column="2"/>
+                    SelectedItem="{Binding SelectedPriority}" Grid.Column="2"
+                    />
         </Grid>
         <Grid>
             <Grid.ColumnDefinitions>

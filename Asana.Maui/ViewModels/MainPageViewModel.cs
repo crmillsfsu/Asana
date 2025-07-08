@@ -18,14 +18,27 @@ namespace Asana.Maui.ViewModels
         public MainPageViewModel()
         {
             _toDoSvc = ToDoServiceProxy.Current;
+            Query = string.Empty;
         }
 
         public ToDoDetailViewModel SelectedToDo { get; set; }
+
+        private string query;
+        public string Query { 
+            get { return query; }
+            set {
+                if (query != value)
+                {
+                    query = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
         public ObservableCollection<ToDoDetailViewModel> ToDos
         {
             get
             {
-                var toDos = _toDoSvc.ToDos
+                var toDos = _toDoSvc.ToDos.Where(t => (t?.Name?.Contains(Query) ?? false) || (t?.Description?.Contains(Query) ?? false))
                         .Select(t => new ToDoDetailViewModel(t));
                 if (!IsShowCompleted)
                 {
@@ -61,13 +74,19 @@ namespace Asana.Maui.ViewModels
                 return;
             }
 
-            ToDoServiceProxy.Current.DeleteToDo(SelectedToDo.Model);
+            ToDoServiceProxy.Current.DeleteToDo(SelectedToDo?.Model?.Id ?? 0);
             NotifyPropertyChanged(nameof(ToDos));
         }
 
         public void RefreshPage()
         {
             NotifyPropertyChanged(nameof(ToDos));
+        }
+
+        public void HandleSearchClick()
+        {
+            RefreshPage();
+            Query = string.Empty;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

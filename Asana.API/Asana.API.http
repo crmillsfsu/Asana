@@ -1,0 +1,6 @@
+@Asana.API_HostAddress = http://localhost:5206
+
+GET {{Asana.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

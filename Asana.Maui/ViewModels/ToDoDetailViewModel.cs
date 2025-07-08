@@ -31,7 +31,8 @@ namespace Asana.Maui.ViewModels
         }
 
         public void DoDelete() {
-            ToDoServiceProxy.Current.DeleteToDo(Model);
+
+            ToDoServiceProxy.Current.DeleteToDo(Model?.Id ?? 0);
         }
 
         public ToDo? Model { get ; set; }

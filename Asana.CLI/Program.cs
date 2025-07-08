@@ -53,7 +53,7 @@ namespace Asana
                             var toDoChoice4 = int.Parse(Console.ReadLine() ?? "0");
 
                             var reference = toDoSvc.GetById(toDoChoice4);
-                            toDoSvc.DeleteToDo(reference);
+                            toDoSvc.DeleteToDo(reference?.Id ?? 0);
                             break;
                         case 5:
                             toDoSvc.DisplayToDos(true);
