@@ -11,7 +11,7 @@ namespace Asana.API.Enterprise
 
         public IEnumerable<ToDo> GetToDos()
         {
-            return FakeDatabase.ToDos.Take(100);
+            return FakeDatabase.Current.ToDos.Take(100);
         }
 
         public ToDo? GetById(int id)
@@ -24,19 +24,14 @@ namespace Asana.API.Enterprise
             var toDoToDelete = GetById(id);
             if (toDoToDelete != null)
             {
-                FakeDatabase.ToDos.Remove(toDoToDelete);
+                FakeDatabase.Current.DeleteToDo(toDoToDelete);
             }
             return toDoToDelete;
         }
 
         public ToDo? AddOrUpdate(ToDo? toDo)
         {
-            if (toDo != null && toDo.Id == 0)
-            {
-                toDo.Id = FakeDatabase.NextKey;
-                FakeDatabase.ToDos.Add(toDo);
-            }
-
+            FakeDatabase.Current.AddOrUpdateToDo(toDo);
             return toDo;
         }
     }

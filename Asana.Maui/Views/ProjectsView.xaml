@@ -4,10 +4,6 @@
              x:Class="Asana.Maui.Views.ProjectsView"
              Title="ProjectsView">
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
         <Grid>
             <ListView
                 ItemsSource="{Binding Projects}"
@@ -30,6 +26,9 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
+        <Button Text="Add Project" Clicked="AddClicked"/>
+        <Button Text="Edit Project" Clicked="EditClicked"/>
+        <Button Text="Delete Project" Clicked="DeleteClicked"/>
         <Button Text="Cancel" Clicked="CancelClicked"/>
     </VerticalStackLayout>
 </ContentPage>

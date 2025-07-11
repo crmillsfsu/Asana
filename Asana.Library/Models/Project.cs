@@ -10,5 +10,7 @@ namespace Asana.Library.Models
     {
         public int Id { get; set; }
         public string? Name { get; set; }
+
+        public List<ToDo>? ToDoList { get; set; }
     }
 }

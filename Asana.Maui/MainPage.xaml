@@ -13,6 +13,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition Height="10*"/>
+                    <RowDefinition Height="10*"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <!-- Tool Bar-->
@@ -65,8 +66,27 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+                <ListView
+                    Grid.Row="2"
+                    ItemsSource="{Binding Projects}"
+                    >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="5*"/>
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0" Text="{Binding Name}"/>
+                                    <Label Grid.Row="1" Text="TO DOS GO HERE"/>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
                 <!-- Button Bar -->
-                <VerticalStackLayout Grid.Row="2">
+                <VerticalStackLayout Grid.Row="3">
                     <Button Text="Add New ToDo" Clicked="AddNewClicked"/>
                     <Button Text="Edit Selected ToDo" Clicked="EditClicked"/>
                     <Button Text="Delete Selected ToDo" Clicked="DeleteClicked"/>

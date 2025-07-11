@@ -48,6 +48,14 @@ namespace Asana.Maui.ViewModels
             }
         }
 
+        public ObservableCollection<Project> Projects
+        {
+            get
+            {
+                return new ObservableCollection<Project>(ProjectServiceProxy.Current.Projects);
+            }
+        }
+
         public int SelectedToDoId => SelectedToDo?.Model?.Id ?? 0;
 
         private bool isShowCompleted;

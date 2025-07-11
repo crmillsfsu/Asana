@@ -1,4 +1,5 @@
 ﻿using Asana.Library.Models;
+using Asana.Library.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,12 +16,9 @@ namespace Asana.Maui.ViewModels
 
         public ProjectsPageViewModel()
         {
-            Projects = new List<ProjectViewModel>
-            {
-                new ProjectViewModel{ Model = new Project{Id = 1, Name = "Project 1"}},
-                new ProjectViewModel{ Model = new Project{Id = 2, Name = "Project 2"}},
-                new ProjectViewModel{ Model = new Project{Id = 3, Name = "Project 3"}}
-            };
+            Projects = ProjectServiceProxy.Current.Projects
+                .Select(p => new ProjectViewModel(p))
+                .ToList();
         }
     }
 }
