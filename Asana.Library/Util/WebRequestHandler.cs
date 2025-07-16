@@ -10,7 +10,7 @@ namespace Asana.Maui.Util
     public class WebRequestHandler
     {
         private string host = "localhost";
-        private string port = "7172";
+        private string port = "5206";
         private HttpClient Client { get; }
         public WebRequestHandler()
         {
@@ -18,7 +18,7 @@ namespace Asana.Maui.Util
         }
         public async Task<string> Get(string url)
         {
-            var fullUrl = $"https://{host}:{port}{url}";
+            var fullUrl = $"http://{host}:{port}{url}";
             try
             {
                 using (var client = new HttpClient())
@@ -30,7 +30,7 @@ namespace Asana.Maui.Util
                 }
             } catch(Exception e)
             {
-
+                    Console.WriteLine($"Error in GET request: {e.Message}");
             }
 
 

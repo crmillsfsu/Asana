@@ -30,8 +30,8 @@ namespace Api.ToDoApplication.Persistence
 
         private Filebase()
         {
-            _root = @"C:\temp";
-            _toDoRoot = $"{_root}\\ToDos";
+            _root = @"/Users/rileygalpin/programming/school/Asana1/database";
+            _toDoRoot = $"{_root}/ToDos"; //home/temp/ToDos
         }
 
         public int LastKey
@@ -55,7 +55,7 @@ namespace Api.ToDoApplication.Persistence
             }
 
             //go to the right place
-            string path = $"{_toDoRoot}\\{toDo.Id}.json";
+            string path = $"{_toDoRoot}/{toDo.Id}.json"; // "\\" change here
             
 
             //if the item has been previously persisted

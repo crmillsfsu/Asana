@@ -9,8 +9,8 @@ namespace Library.eCommerce.Utilities
 {
     public class WebRequestHandler
     {
-        private string host = "localhost";
-        private string port = "7009";
+        private string host = "10.185.208.107";
+        private string port = "5206"; //"7009"
         private HttpClient Client { get; }
         public WebRequestHandler()
         {
