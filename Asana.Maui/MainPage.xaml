@@ -50,6 +50,8 @@
                                                 <ColumnDefinition/>
                                                 <ColumnDefinition Width="10*"/>
                                                 <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
                                             </Grid.ColumnDefinitions>
                                             <CheckBox IsChecked="{Binding Model.IsCompleted}" Grid.Column="0"/>
 
@@ -62,7 +64,17 @@
                                                 <Label Grid.Row="1" Text="{Binding Model.Description}"/>
                                             </Grid>
 
-                                            <Button Grid.Column="2" Text="Delete" Clicked="InLineDeleteClicked" Command="{Binding DeleteCommand}"/>
+                                            <Grid Grid.Column="3">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <Label TextColor="Red" Grid.Row="0" Text="Due Date"/>
+                                        
+                                        <Label  Grid.Row="1"  Text="{Binding Model.DueDate, StringFormat='{0:MM/dd/yyyy}'}" />
+                                    </Grid>      
+
+                                            <Button Grid.Column="4" Text="Delete" Clicked="InLineDeleteClicked" Command="{Binding DeleteCommand}"/>
                                         </Grid>
                                     </ViewCell>
                                 </DataTemplate>

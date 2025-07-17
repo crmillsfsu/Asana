@@ -36,9 +36,14 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="3*"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Label Text="Description: " Grid.Column="0"/>
             <Entry Text="{Binding Model.Description}" Grid.Column="1"/>
+
+            <Label Text="Due Date:" Grid.Column="2"/>
+            <DatePicker Date="{Binding Model.DueDate}" Grid.Column="3" /> 
         </Grid>
         <Button Text="Ok" Clicked="OkClicked"/>
         <Button Text="Cancel" Clicked="CancelClicked"/>
