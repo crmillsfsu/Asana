@@ -40,16 +40,19 @@ namespace Asana.Library.Services
             var todoData = new WebRequestHandler().Get("/ToDo").Result;
             ToDos = JsonConvert.DeserializeObject<List<ToDo>>(todoData) ?? new List<ToDo>();
         }
-
+         private static object _lock = new object();
         private static ToDoServiceProxy? instance;
 
         public static ToDoServiceProxy Current
         {
             get
             {
-                if(instance == null)
+                lock (_lock)
                 {
-                    instance = new ToDoServiceProxy();
+                    if (instance == null)
+                    {
+                        instance = new ToDoServiceProxy();
+                    }
                 }
 
                 return instance;
