@@ -5,7 +5,7 @@
              NavigatedTo="ContentPage_NavigatedTo"
              NavigatedFrom="ContentPage_NavigatedFrom">
 
-    <ScrollView>
+    <!--<ScrollView>-->
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
@@ -13,7 +13,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition Height="10*"/>
-                    <RowDefinition Height="10*"/>
+                    <!--<RowDefinition Height="10*"/>-->
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <!-- Tool Bar-->
@@ -35,56 +35,72 @@
                     </Grid>
                 </Grid>
                 <!-- ToDo List-->
-                <ListView
-                Grid.Row="1"
-                ItemsSource="{Binding ToDos}"
-                SelectedItem="{Binding SelectedToDo}"
-                >
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition Width="10*"/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <CheckBox IsChecked="{Binding Model.IsCompleted}" Grid.Column="0"/>
+                <ScrollView Grid.Row="1">
+                    <VerticalStackLayout>
+                        <ListView
+                        Grid.Row="1"
+                        ItemsSource="{Binding ToDos}"
+                        SelectedItem="{Binding SelectedToDo}"
+                        >
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="10*"/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <CheckBox IsChecked="{Binding Model.IsCompleted}" Grid.Column="0"/>
 
-                                    <Grid Grid.Column="1">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                        </Grid.RowDefinitions>
-                                        <Label TextColor="Red" Grid.Row="0" Text="{Binding Model.Name}"/>
-                                        <Label Grid.Row="1" Text="{Binding Model.Description}"/>
-                                    </Grid>
+                                            <Grid Grid.Column="1">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition/>
+                                                    <RowDefinition/>
+                                                </Grid.RowDefinitions>
+                                                <Label TextColor="Red" Grid.Row="0" Text="{Binding Model.Name}"/>
+                                                <Label Grid.Row="1" Text="{Binding Model.Description}"/>
+                                            </Grid>
 
-                                    <Button Grid.Column="2" Text="Delete" Clicked="InLineDeleteClicked" Command="{Binding DeleteCommand}"/>
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <ListView
-                    Grid.Row="2"
-                    ItemsSource="{Binding Projects}"
-                    >
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition/>
-                                        <RowDefinition Height="5*"/>
-                                    </Grid.RowDefinitions>
-                                    <Label Grid.Row="0" Text="{Binding Name}"/>
-                                    <Label Grid.Row="1" Text="TO DOS GO HERE"/>
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                                            <Button Grid.Column="2" Text="Delete" Clicked="InLineDeleteClicked" Command="{Binding DeleteCommand}"/>
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <ListView
+                        Grid.Row="2"
+                        ItemsSource="{Binding Projects}"
+                        >
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition Height="10*"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid Grid.Row="0" BackgroundColor="Blue">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="10*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Button Grid.Column="0" Text="+" Command="{Binding ToggleToDoVisibility}"/>
+                                            <Label Grid.Column="1" TextColor="White" Text="{Binding Model.Name}" />
+                                            </Grid>
+                                        <Grid Grid.Row="1" IsVisible="{Binding ToDoVisibility}">
+                                            <ListView
+                                                ItemsSource="{Binding ToDos}"
+                                                />
+                                        </Grid>
+                                            
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </VerticalStackLayout>
+                </ScrollView>
                 <!-- Button Bar -->
                 <VerticalStackLayout Grid.Row="3">
                     <Button Text="Add New ToDo" Clicked="AddNewClicked"/>
@@ -94,6 +110,6 @@
                 </VerticalStackLayout>
             </Grid>
         </VerticalStackLayout>
-    </ScrollView>
+    <!--</ScrollView>-->
 
 </ContentPage>

@@ -48,11 +48,14 @@ namespace Asana.Maui.ViewModels
             }
         }
 
-        public ObservableCollection<Project> Projects
+        public ObservableCollection<ProjectViewModel> Projects
         {
             get
             {
-                return new ObservableCollection<Project>(ProjectServiceProxy.Current.Projects);
+                var projectList 
+                    = ProjectServiceProxy.Current
+                    .Projects.Select(p => new ProjectViewModel(p));
+                return new ObservableCollection<ProjectViewModel>(projectList);
             }
         }
 
