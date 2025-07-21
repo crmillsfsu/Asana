@@ -12,7 +12,7 @@ namespace Asana.API.Enterprise
 
         public IEnumerable<ToDo> GetToDos()
         {
-            return Filebase.Current.ToDos.Take(100);
+            return new MsSqlContext().ToDos.Take(100);
         }
 
         public ToDo? GetById(int id)
