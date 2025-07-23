@@ -1,6 +1,7 @@
 ﻿using Asana.Library.Models;
 using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
+using System.Data.SqlTypes;
 
 namespace Asana.API.Database
 {
@@ -28,7 +29,7 @@ namespace Asana.API.Database
 
                         sqlConnection.Open();
                         var reader = sqlCmd.ExecuteReader();
-                        
+
 
                         while (reader.Read())
                         {
@@ -50,13 +51,69 @@ namespace Asana.API.Database
                         return _toDos;
                     }
                 }
-  
+
             }
         }
 
-        public ToDo AddOrUpdateToDo()
+        public ToDo? AddOrUpdateToDo(ToDo? toDo)
         {
+            if (toDo == null) return toDo;
 
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                using (var cmd = connection.CreateCommand())
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    SqlParameter? idParameter = null;
+                    //set up the command
+                    if (toDo.Id <= 0)
+                    {
+                        //Insert command
+                        cmd.CommandText = "[ToDo].[Insert]";
+                        idParameter = new SqlParameter("@id", toDo.Id) { Direction = System.Data.ParameterDirection.Output };
+                        cmd.Parameters.Add(idParameter);
+
+                    }
+                    else
+                    {
+                        //update command
+                        cmd.CommandText = "[ToDo].[Update]";
+                        cmd.Parameters.Add(new SqlParameter("@id", toDo.Id));
+                    }
+
+                    cmd.Parameters.Add(new SqlParameter("@name", toDo.Name));
+                    cmd.Parameters.Add(new SqlParameter("@description", toDo.Description));
+                    cmd.Parameters.Add(new SqlParameter("@isCompleted", toDo.IsCompleted));
+                    cmd.Parameters.Add(new SqlParameter("@priority", toDo.Priority));
+
+                    connection.Open();
+                    var result = cmd.ExecuteScalar();
+                    if (idParameter != null)
+                    {
+                        toDo.Id = int.Parse(idParameter.Value?.ToString() ?? "0");
+                    }
+                }
+            }
+
+            return toDo;
+        }
+
+        public int DeleteToDo(int id)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                using (var cmd = connection.CreateCommand())
+                {
+                    //update command
+                    cmd.CommandText = "[ToDo].[Delete]";
+                    cmd.Parameters.Add(new SqlParameter("@id", id));
+
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+
+            return id;
         }
     }
 }

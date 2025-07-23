@@ -20,19 +20,18 @@ namespace Asana.API.Enterprise
             return GetToDos().FirstOrDefault(t => t.Id == id);
         }
 
-        public ToDo? Delete(int id)
+        public int Delete(int id)
         {
-            var toDoToDelete = GetById(id);
-            if (toDoToDelete != null)
+            if (id > 0)
             {
-                //Filebase.Current.Delete(toDoToDelete);
+                return new MsSqlContext().DeleteToDo(id);
             }
-            return toDoToDelete;
+            return -1;
         }
 
         public ToDo? AddOrUpdate(ToDo? toDo)
         {
-            Filebase.Current.AddOrUpdate(toDo);
+            new MsSqlContext().AddOrUpdateToDo(toDo);
             return toDo;
         }
     }
