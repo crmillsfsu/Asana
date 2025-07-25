@@ -98,22 +98,23 @@ namespace Asana.API.Database
             return toDo;
         }
 
-        public int DeleteToDo(int id)
+        public int DeleteToDo(int toDoId)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 using (var cmd = connection.CreateCommand())
                 {
                     //update command
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "[ToDo].[Delete]";
-                    cmd.Parameters.Add(new SqlParameter("@id", id));
+                    cmd.Parameters.Add(new SqlParameter("@id", toDoId));
 
                     connection.Open();
-                    cmd.ExecuteNonQuery();
+                    var result = cmd.ExecuteScalar();
                 }
             }
 
-            return id;
+            return toDoId;
         }
     }
 }
