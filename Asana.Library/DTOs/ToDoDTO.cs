@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Asana.Library.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace Asana.Library.DTOs
         public int Id { get; set; }
 
         public ToDoDTO() { }
-        public ToDoDTO(ToDoDTO td) { 
+        public ToDoDTO(ToDo td) { 
             Id = td.Id;
             Name = td.Name;
             Description = td.Description;
