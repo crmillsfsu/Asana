@@ -1,18 +1,20 @@
-﻿using Api.ToDoApplication.Persistence;
-using Asana.API.Database;
+﻿using Asana.API.Database;
 using Asana.Library.Models;
 
 namespace Asana.API.Enterprise
 {
     public class ToDoEC
     {
-        public ToDoEC() { 
-            
+        private readonly SqliteContext _context;
+
+        public ToDoEC()
+        {
+            _context = new SqliteContext();
         }
 
         public IEnumerable<ToDo> GetToDos()
         {
-            return Filebase.Current.ToDos.Take(100);
+            return _context.ToDos.Take(100);
         }
 
         public ToDo? GetById(int id)
@@ -20,20 +22,18 @@ namespace Asana.API.Enterprise
             return GetToDos().FirstOrDefault(t => t.Id == id);
         }
 
-        public ToDo? Delete(int id)
+        public int Delete(int id)
         {
-            var toDoToDelete = GetById(id);
-            if (toDoToDelete != null)
+            if (id > 0)
             {
-                //Filebase.Current.Delete(toDoToDelete);
+                return _context.DeleteToDo(id);
             }
-            return toDoToDelete;
+            return -1;
         }
 
         public ToDo? AddOrUpdate(ToDo? toDo)
         {
-            Filebase.Current.AddOrUpdate(toDo);
-            return toDo;
+            return _context.AddOrUpdateToDo(toDo);
         }
     }
 }

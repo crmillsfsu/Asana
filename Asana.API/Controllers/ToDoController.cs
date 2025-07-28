@@ -24,7 +24,13 @@ namespace Asana.API.Controllers
         [HttpDelete("{id}")]
         public ToDo? Delete(int id)
         {
-            return new ToDoEC().Delete(id);
+            var ec = new ToDoEC();
+            var toDo = ec.GetById(id); // get it before it's deleted
+            if (toDo == null)
+                return null;
+
+            ec.Delete(id);
+            return toDo;
         }
 
         [HttpPost]
