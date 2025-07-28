@@ -1,88 +1,37 @@
-﻿using Asana.Library.Models;
-using Asana.Library.Services;
+﻿using Asana.API.Database;
+using Asana.Library.Models;
 using System;
 
-namespace Asana
+class Program
 {
-    public class Program
+    static void Main(string[] args)
     {
-        
-        public static void Main(string[] args)
+
+        // Added the sql connection and then delete it 
+        var context = new SqliteContext();
+
+        // Add a new ToDo
+        var newToDo = new ToDo
         {
-            var toDoSvc = ToDoServiceProxy.Current;
-            int choiceInt;
-            do
-            {
-                Console.WriteLine("Choose a menu option:");
-                Console.WriteLine("1. Create a ToDo");
-                Console.WriteLine("2. List all ToDos");
-                Console.WriteLine("3. List all outstanding ToDos");
-                Console.WriteLine("4. Delete a ToDo");
-                Console.WriteLine("5. Update a ToDo");
-                Console.WriteLine("6. Exit");
+            Name = "Test Task",
+            Description = "Testing SQLite insert",
+            IsCompleted = false,
+            Priority = 1
+        };
 
-                var choice = Console.ReadLine() ?? "6";
+        context.AddOrUpdateToDo(newToDo);
+        Console.WriteLine($"Added ToDo with ID: {newToDo.Id}");
 
-                if (int.TryParse(choice, out choiceInt))
-                {
-                    switch (choiceInt)
-                    {
-                        case 1:
-                            Console.Write("Name:");
-                            var name = Console.ReadLine();
-                            Console.Write("Description:");
-                            var description = Console.ReadLine();
-
-                            toDoSvc.AddOrUpdate(new ToDo
-                            {
-                                Name = name,
-                                Description = description,
-                                IsCompleted = false,
-                                Id = 0
-                            });
-                            break;
-                        case 2:
-                            toDoSvc.DisplayToDos(true);
-                            break;
-                        case 3:
-                            toDoSvc.DisplayToDos();
-                            break;
-                        case 4:
-                            toDoSvc.DisplayToDos(true);
-                            Console.Write("ToDo to Delete: ");
-                            var toDoChoice4 = int.Parse(Console.ReadLine() ?? "0");
-
-                            var reference = toDoSvc.GetById(toDoChoice4);
-                            toDoSvc.DeleteToDo(reference?.Id ?? 0);
-                            break;
-                        case 5:
-                            toDoSvc.DisplayToDos(true);
-                            Console.Write("ToDo to Update: ");
-                            var toDoChoice5 = int.Parse(Console.ReadLine() ?? "0");
-                            var updateReference = toDoSvc.GetById(toDoChoice5);
-
-                            if (updateReference != null)
-                            {
-                                Console.Write("Name:");
-                                updateReference.Name = Console.ReadLine();
-                                Console.Write("Description:");
-                                updateReference.Description = Console.ReadLine();
-                            }
-                            toDoSvc.AddOrUpdate(updateReference);
-                            break;
-                        case 6:
-                            break;
-                        default:
-                            Console.WriteLine("ERROR: Unknown menu selection");
-                            break;
-                    }
-                } else
-                {
-                    Console.WriteLine($"ERROR: {choice} is not a valid menu selection");
-                }
-
-            } while (choiceInt != 6);
-
+        // Get all ToDos
+        var allToDos = context.ToDos;
+        Console.WriteLine("\nAll ToDos:");
+        foreach (var todo in allToDos)
+        {
+            Console.WriteLine($"ID: {todo.Id}, Name: {todo.Name}, Completed: {todo.IsCompleted}");
         }
+
+        // Delete test ToDo
+        context.DeleteToDo(newToDo.Id);
+        Console.WriteLine($"\nDeleted ToDo with ID: {newToDo.Id}");
     }
 }
