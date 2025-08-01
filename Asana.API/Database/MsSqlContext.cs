@@ -11,7 +11,7 @@ namespace Asana.API.Database
 
         public MsSqlContext()
         {
-            _connectionString = $"Server=CMILLS;Database=ASANA;Trusted_Connection=True;TrustServerCertificate=True";
+            _connectionString = $"Server=DESKTOP-V44AS7I\\MSSQLSERVER01;Database=ASANA;Trusted_Connection=True;TrustServerCertificate=True";
         }
 
         private List<ToDo> _toDos;
@@ -110,7 +110,7 @@ namespace Asana.API.Database
                     cmd.Parameters.Add(new SqlParameter("@id", toDoId));
 
                     connection.Open();
-                    var result = cmd.ExecuteScalar();
+                    `var result = cmd.ExecuteScalar();
                 }
             }
 
